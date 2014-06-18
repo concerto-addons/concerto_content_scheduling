@@ -8,7 +8,7 @@ module ConcertoContentScheduling
       @plugin_info ||= plugin_info_class.new do
         
         add_view_hook "ContentsController", 
-                      :content_details, 
+                      :content_form, 
                       :partial => "concerto_content_scheduling/content_details"
         
       end

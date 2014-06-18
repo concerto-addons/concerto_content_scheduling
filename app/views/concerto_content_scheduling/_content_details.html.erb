@@ -1,37 +1,41 @@
 <%= javascript_include_tag "concerto_content_scheduling/application" %>
 
-<legend><span>Content Scheduling</span></legend>
+<fieldset>
 
-<div class="row-fluid">
-  <div class="span6">
-    <div class="clearfix">
+  <legend><span>Content Scheduling</span></legend>
 
-      <div class="row">
+  <div class="row-fluid">
+    <div class="span6">
+      <div class="clearfix">
 
-        <div class="span6">
-          <div class="clearfix datetime">
+        <div class="row">
+
+          <div class="span6">
+            <div class="clearfix datetime">
+                <div class="scheduleTimeSelects">
+                  <div class="input-prepend">
+                    <span class="add-on">From Time</span>
+                    <%= text_field_tag "schedule_start_time[time]", "12:00am", {:id => "schedule_start_time", :maxlength => 20, :class => "timefield input-small"} %>
+                  </div>
+                </div>
+            </div>
+          </div>
+
+          <div class="span6">
+            <div class="clearfix datetime">
               <div class="scheduleTimeSelects">
                 <div class="input-prepend">
-                  <span class="add-on">From Time</span>
-                  <%= text_field_tag "schedule_start_time[time]", "12:00am", {:id => "schedule_start_time", :maxlength => 20, :class => "timefield input-small"} %>
+                  <span class="add-on">Until Time</span>
+                    <%= text_field_tag "schedule_end_time[time]", "11:59pm", {:id => "schedule_end_time", :maxlength => 20, :class => "timefield input-small"} %>
                 </div>
-              </div>
-          </div>
-        </div>
-
-        <div class="span6">
-          <div class="clearfix datetime">
-            <div class="scheduleTimeSelects">
-              <div class="input-prepend">
-                <span class="add-on">Until Time</span>
-                  <%= text_field_tag "schedule_end_time[time]", "11:59pm", {:id => "schedule_end_time", :maxlength => 20, :class => "timefield input-small"} %>
               </div>
             </div>
           </div>
+
         </div>
 
       </div>
-
     </div>
   </div>
-</div>
+
+</fieldset>
