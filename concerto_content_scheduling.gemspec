@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = ConcertoContentScheduling::VERSION
   s.authors     = ["Concerto Developers"]
   s.email       = ["perez283@gmail.com"]
-  s.homepage    = "concerto-signage.org"
+  s.homepage    = "http://concerto-signage.org"
   s.summary     = "Schedule content for different times of day."
   s.description = "Add more content scheduling options."
   s.license     = "Apache-2.0"
@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"
+  s.add_dependency "jquery-timepicker-rails"
 
   s.add_development_dependency "sqlite3"
+
 end
