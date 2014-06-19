@@ -20,8 +20,21 @@ module ConcertoContentScheduling
 
         # allow the schedule field via strong params
         add_controller_hook "ContentsController", :content_params, :after do
-          @attributes.concat([:schedule])
+          @attributes.concat([:schedule => [:criteria, :start_time, :end_time]])
         end
+
+        add_controller_hook "Content", :initialize, :after do
+          self.schedule = { 
+            "start_time" => ConcertoConfig[:content_default_start_time], 
+            "end_time" => ConcertoConfig[:content_default_end_time], 
+            "criteria" => nil 
+          } if self.schedule.nil?
+        end
+
+        add_controller_hook "Content", :find, :after do
+          self.schedule = JSON.Load(self.schedule) rescue nil
+        end
+
       end
     end
     
@@ -31,20 +44,25 @@ module ConcertoContentScheduling
       effective = false
 
       # if no schedule set assume always available
-      if schedule.blank? or start_time.blank? or schedule['from_time'].blank? or schedule['to_time'].blank?
+      if schedule.blank? or start_time.blank? or schedule['start_time'].blank? or schedule['end_time'].blank?
         effective = true
       else
         # check the schedule... and see if it is within the viewing window for the day
-        if Clock.time >= Time.parse(schedule['from_time']) && Clock.time <= Time.parse(schedule['to_time'])
-          # and it matches the criteria
-          if !schedule['criteria'].blank?
-            s = IceCube::Schedule.new(start_time)
-            s.add_recurrence_rule(RecurringSelect.dirty_hash_to_rule(schedule['criteria']))
-            effective = s.occurs_on? Clock.time
-          else
-            # or no criteria was set
-            effective = true
+        begin
+          if Clock.time >= Time.parse(schedule['start_time']) && Clock.time <= Time.parse(schedule['end_time'])
+            # and it matches the criteria
+            if !schedule['criteria'].blank?
+              s = IceCube::Schedule.new(start_time)
+              s.add_recurrence_rule(RecurringSelect.dirty_hash_to_rule(schedule['criteria']))
+              effective = s.occurs_on? Clock.time
+            else
+              # or no criteria was set
+              effective = true
+            end
           end
+        rescue => e
+          Rails.logger.error("Unable to determine if schedule is active - #{e.message} - #{schedule}")
+          Rails.logger.error("start_time = #{schedule['start_time']}")
         end
       end
 
