@@ -18,6 +18,10 @@ module ConcertoContentScheduling
           @contents.reject!{|c| !ConcertoContentScheduling::Engine.is_effective?(c.start_time, c.schedule)}
         end
 
+        # allow the schedule field via strong params
+        add_controller_hook "ContentsController", :content_params, :after do
+          @attributes.concat([:schedule])
+        end
       end
     end
     
