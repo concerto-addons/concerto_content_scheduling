@@ -3,6 +3,7 @@ en:
 
     content:
       schedule:
+        frequency: 'Frequency'
         schedule: 'Schedule'
         from_time: 'From Time'
         until_time: 'Until Time'
