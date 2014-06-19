@@ -9,7 +9,7 @@ module ConcertoContentScheduling
         
         add_view_hook "ContentsController", 
                       :content_form, 
-                      :partial => "concerto_content_scheduling/content_details"
+                      :partial => "concerto_content_scheduling/content/schedule"
         
       end
     end
