@@ -1,0 +1,33 @@
+<%= javascript_include_tag "concerto_content_scheduling/application" %>
+
+<fieldset>
+
+  <legend><span><%=t('.schedule')%></span></legend>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <div class="clearfix datetime">
+        <%= label_tag :schedule_start_time, t('.from_time')%>
+        <div class="input">
+          <div class="input-prepend">
+            <span class="add-on"><%= t(:at) %></span>
+            <%= text_field_tag "schedule_start_time[time]", "12:00am", {:id => "schedule_start_time", :maxlength => 20, :class => "timefield input-small"} %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="span6">
+      <div class="clearfix datetime">
+        <%= label_tag :schedule_end_time, t('.until_time')%>
+        <div class="input">
+          <div class="input-prepend">
+            <span class="add-on"><%=t(:at)%></span>
+            <%= text_field_tag "schedule_end_time[time]", "11:59pm", {:id => "schedule_end_time", :maxlength => 20, :class => "timefield input-small"} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</fieldset>
