@@ -1,3 +1,4 @@
+<%= stylesheet_link_tag    "concerto_content_scheduling/application", media: "all" %>
 <%= javascript_include_tag "concerto_content_scheduling/application" %>
 
 <fieldset>
@@ -5,17 +6,15 @@
   <legend><span><%=t('.schedule')%></span></legend>
 
   <div class="row-fluid">
-    <div class="span1">
+    <div class="span3">
       <%= label_tag :frequency %>
-    </div>
-    <div class="span2">
-      <%= select_tag "schedule[frequency]", options_for_select(["Daily", "Weekly", "Monthly (by day of month)",
-                                                                      "Yearly (by day of year)", "Yearly (by month of year)" ], "Weekly") %> 
+      <%= form.select_recurring :schedule %>
     </div>
   </div>
 
   <br />
 
+<!--
   <div class="row-fluid">
     <div class="span3">
       <div class="clearfix datetime">
@@ -23,7 +22,7 @@
         <div class="input">
           <div class="input-prepend">
             <span class="add-on"><%= t(:at) %></span>
-            <%= text_field_tag "schedule_start_time[time]", "12:00am", {:id => "schedule_start_time", :maxlength => 20, :class => "timefield input-small"} %>
+            <%= text_field_tag "schedule_time[from_time]", "12:00am", {:id => "schedule_start_time", :maxlength => 20, :class => "timefield input-small"} %>
           </div>
         </div>
       </div>
@@ -35,11 +34,12 @@
         <div class="input">
           <div class="input-prepend">
             <span class="add-on"><%=t(:at)%></span>
-            <%= text_field_tag "schedule_end_time[time]", "11:59pm", {:id => "schedule_end_time", :maxlength => 20, :class => "timefield input-small"} %>
+            <%= text_field_tag "schedule_time[until_time]", "11:59pm", {:id => "schedule_end_time", :maxlength => 20, :class => "timefield input-small"} %>
           </div>
         </div>
       </div>
     </div>
   </div>
+-->
 
 </fieldset>

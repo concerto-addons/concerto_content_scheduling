@@ -1,3 +1,4 @@
+require 'recurring_select'
 module ConcertoContentScheduling
   class Engine < ::Rails::Engine
     isolate_namespace ConcertoContentScheduling
