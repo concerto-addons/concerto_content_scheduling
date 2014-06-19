@@ -1,0 +1,8 @@
+en:
+  concerto_content_scheduling:
+
+    content:
+      schedule:
+        schedule: 'Schedule'
+        from_time: 'From Time'
+        until_time: 'Until Time'
