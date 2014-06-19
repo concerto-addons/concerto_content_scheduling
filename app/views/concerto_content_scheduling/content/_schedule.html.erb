@@ -5,7 +5,19 @@
   <legend><span><%=t('.schedule')%></span></legend>
 
   <div class="row-fluid">
-    <div class="span6">
+    <div class="span1">
+      <%= label_tag :frequency %>
+    </div>
+    <div class="span2">
+      <%= select_tag "schedule[frequency]", options_for_select(["Daily", "Weekly", "Monthly (by day of month)",
+                                                                      "Yearly (by day of year)", "Yearly (by month of year)" ], "Weekly") %> 
+    </div>
+  </div>
+
+  <br />
+
+  <div class="row-fluid">
+    <div class="span3">
       <div class="clearfix datetime">
         <%= label_tag :schedule_start_time, t('.from_time')%>
         <div class="input">
@@ -17,7 +29,7 @@
       </div>
     </div>
 
-    <div class="span6">
+    <div class="span3">
       <div class="clearfix datetime">
         <%= label_tag :schedule_end_time, t('.until_time')%>
         <div class="input">
