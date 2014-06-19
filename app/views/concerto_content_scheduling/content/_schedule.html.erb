@@ -4,42 +4,40 @@
 <fieldset>
 
   <legend><span><%=t('.schedule')%></span></legend>
-
-  <div class="row-fluid">
-    <div class="span6">
-      <%= label_tag :frequency %>
-      <%= form.select_recurring :schedule %>
+  <%= form.fields_for :schedule do |schedule| %>
+    <div class="row-fluid">
+      <div class="span6">
+        <%= schedule.label :criteria, t('.frequency') %>
+        <%= schedule.select_recurring :criteria %>
+      </div>
     </div>
-  </div>
 
-  <br />
+    <br />
 
-<!--
-  <div class="row-fluid">
-    <div class="span3">
-      <div class="clearfix datetime">
-        <%= label_tag :schedule_start_time, t('.from_time')%>
-        <div class="input">
-          <div class="input-prepend">
-            <span class="add-on"><%= t(:at) %></span>
-            <%= text_field_tag "schedule_time[from_time]", "12:00am", {:id => "schedule_start_time", :maxlength => 20, :class => "timefield input-small"} %>
+    <div class="row-fluid">
+      <div class="span3">
+        <div class="clearfix datetime">
+          <%= schedule.label :start_time, t('.from_time')%>
+          <div class="input">
+            <div class="input-prepend">
+              <span class="add-on"><%= t(:at) %></span>
+              <%= schedule.text_field :start_time, :maxlength => 20, :class => "timefield input-small" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="span3">
+        <div class="clearfix datetime">
+          <%= schedule.label :end_time, t('.until_time')%>
+          <div class="input">
+            <div class="input-prepend">
+              <span class="add-on"><%=t(:at)%></span>
+              <%= schedule.text_field :end_time, :value => ConcertoConfig[:content_default_end_time], :maxlength => 20, :class => "timefield input-small" %>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="span3">
-      <div class="clearfix datetime">
-        <%= label_tag :schedule_end_time, t('.until_time')%>
-        <div class="input">
-          <div class="input-prepend">
-            <span class="add-on"><%=t(:at)%></span>
-            <%= text_field_tag "schedule_time[until_time]", "11:59pm", {:id => "schedule_end_time", :maxlength => 20, :class => "timefield input-small"} %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
--->
-
+    <% end %>
 </fieldset>
