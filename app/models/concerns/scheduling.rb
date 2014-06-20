@@ -10,7 +10,10 @@ Rails.logger.debug("concern included ===========================================
     after_find :load_schedule_info
     before_validation :save_schedule_info
 
-    #attributes.concat([:schedule_info => [:criteria, :start_time, :end_time]])
+    def self.form_attributes
+      # Content's original form_attributes, plus our new ones
+      [:name, :duration, :data, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}] + [:schedule_info => [:criteria, :start_time, :end_time]]
+    end
   end
 
   module ClassMethods
