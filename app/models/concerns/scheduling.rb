@@ -1,9 +1,7 @@
 module Concerns::Scheduling
   extend ActiveSupport::Concern
 
-  included do |variable|
-Rails.logger.debug("concern included ===============================================================================")
-    
+  included do 
     attr_accessor :schedule_info
 
     after_initialize :create_schedule_info
