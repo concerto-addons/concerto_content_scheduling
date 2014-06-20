@@ -1,4 +1,4 @@
-module Scheduling
+module Concerns::Scheduling
   extend ActiveSupport::Concern
 
   included do |variable|
@@ -10,7 +10,7 @@ Rails.logger.debug("concern included ===========================================
     after_find :load_schedule_info
     before_validation :save_schedule_info
 
-    attributes.concat([:schedule_info => [:criteria, :start_time, :end_time]])
+    #attributes.concat([:schedule_info => [:criteria, :start_time, :end_time]])
   end
 
   module ClassMethods

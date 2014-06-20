@@ -1,11 +1,12 @@
 require 'recurring_select'
+
 module ConcertoContentScheduling
   class Engine < ::Rails::Engine
     isolate_namespace ConcertoContentScheduling
     engine_name 'concerto_content_scheduling'
 
     config.to_prepare do
-      Concerto::Content.class_eval { include ConcertoContentScheduling::Concerns::Scheduling }
+      Content.class_eval { include ConcertoContentScheduling::Concerns::Scheduling }
     end
 
     def plugin_info(plugin_info_class)
