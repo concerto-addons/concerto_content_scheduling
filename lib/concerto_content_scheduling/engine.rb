@@ -5,12 +5,10 @@ module ConcertoContentScheduling
     isolate_namespace ConcertoContentScheduling
     engine_name 'concerto_content_scheduling'
 
-    config.to_prepare do
-      Content.class_eval { include ConcertoContentScheduling::Concerns::Scheduling }
-    end
-
     def plugin_info(plugin_info_class)
       @plugin_info ||= plugin_info_class.new do
+
+        extend_model Content, ConcertoContentScheduling::Concerns::Scheduling
         
         add_view_hook "ContentsController", 
                       :content_form, 
