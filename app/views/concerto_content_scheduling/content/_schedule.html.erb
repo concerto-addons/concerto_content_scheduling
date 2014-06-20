@@ -1,14 +1,22 @@
 <%= stylesheet_link_tag    "concerto_content_scheduling/application", media: "all" %>
 <%= javascript_include_tag "concerto_content_scheduling/application" %>
 
-<fieldset>
+<% 
+  rules = []
+  if @content.schedule_info.has_key?('criteria')
+    if !@content.schedule_info['criteria'].blank?
+      rules << RecurringSelect.dirty_hash_to_rule(@content.schedule_info['criteria'])
+    end
+  end
+%>
 
+<fieldset>
   <legend><span><%=t('.schedule')%></span></legend>
-  <%= form.fields_for :schedule do |schedule| %>
+  <%= form.fields_for :schedule_info do |schedule| %>
     <div class="row-fluid">
       <div class="span6">
         <%= schedule.label :criteria, t('.frequency') %>
-        <%= schedule.select_recurring :criteria %>
+        <%= schedule.select_recurring :criteria, rules %>
       </div>
     </div>
 
@@ -21,7 +29,7 @@
           <div class="input">
             <div class="input-prepend">
               <span class="add-on"><%= t(:at) %></span>
-              <%= schedule.text_field :start_time, :maxlength => 20, :class => "timefield input-small" %>
+              <%= schedule.text_field :start_time, :maxlength => 20, :value => @content.schedule_info['start_time'], :class => "timefield input-small" %>
             </div>
           </div>
         </div>
@@ -33,7 +41,7 @@
           <div class="input">
             <div class="input-prepend">
               <span class="add-on"><%=t(:at)%></span>
-              <%= schedule.text_field :end_time, :value => ConcertoConfig[:content_default_end_time], :maxlength => 20, :class => "timefield input-small" %>
+              <%= schedule.text_field :end_time, :value => @content.schedule_info['end_time'], :maxlength => 20, :class => "timefield input-small" %>
             </div>
           </div>
         </div>

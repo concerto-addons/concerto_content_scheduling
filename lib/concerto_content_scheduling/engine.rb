@@ -15,58 +15,60 @@ module ConcertoContentScheduling
         # filter the contents according to the schedule
         # the manykinds plugin if concurrently enabled will cause this to be skipped
         add_controller_hook "Subscription", :filter_contents, :after do
-          @contents.reject!{|c| !ConcertoContentScheduling::Engine.is_effective?(c.start_time, c.schedule)}
+          @contents.reject!{|c| !ConcertoContentScheduling::Engine.is_active?(c)}
         end
 
         # allow the schedule field via strong params
         add_controller_hook "ContentsController", :content_params, :after do
-          @attributes.concat([:schedule => [:criteria, :start_time, :end_time]])
+          @attributes.concat([:schedule_info => [:criteria, :start_time, :end_time]])
         end
 
         add_controller_hook "Content", :initialize, :after do
-          self.schedule = { 
+          self.schedule_info = { 
             "start_time" => ConcertoConfig[:content_default_start_time], 
             "end_time" => ConcertoConfig[:content_default_end_time], 
             "criteria" => nil 
-          } if self.schedule.nil?
+          } if self.schedule_info.nil?
         end
 
         add_controller_hook "Content", :find, :after do
-          self.schedule = JSON.Load(self.schedule) rescue nil
+          self.schedule_info = JSON.load(self.schedule) rescue {}
         end
 
+        add_controller_hook "Content", :validation, :before do
+          self.schedule = JSON.dump(self.schedule_info)
+        end
       end
     end
     
     # this needs to find a different place to reside, but it needs to be available to the 
     # Subscription:filter_contents hook and to the views in this engine
-    def is_effective?(start_time, schedule)
-      effective = false
+    def is_active?(content)
+      active = true
 
-      # if no schedule set assume always available
-      if schedule.blank? or start_time.blank? or schedule['start_time'].blank? or schedule['end_time'].blank?
-        effective = true
+      if content.blank? or content.schedule_info.blank? or !content.schedule_info.is_a?(Hash) or
+        !content.schedule_info.include?("start_time") or !content.schedule_info.include?("end_time") or
+        !content.schedule_info.include?("criteria") or content.schedule_info["start_time"].blank? or
+        content.schedule_info["end_time"].blank? or content.schedule_info["criteria"].blank?
+        # missing or incomplete schedule information so assume active
       else
-        # check the schedule... and see if it is within the viewing window for the day
+        # see if it is within the viewing window for the day
         begin
-          if Clock.time >= Time.parse(schedule['start_time']) && Clock.time <= Time.parse(schedule['end_time'])
+          if Clock.time >= Time.parse(content.schedule_info['start_time']) && Clock.time <= Time.parse(content.schedule_info['end_time'])
             # and it matches the criteria
-            if !schedule['criteria'].blank?
-              s = IceCube::Schedule.new(start_time)
-              s.add_recurrence_rule(RecurringSelect.dirty_hash_to_rule(schedule['criteria']))
-              effective = s.occurs_on? Clock.time
-            else
-              # or no criteria was set
-              effective = true
-            end
+            s = IceCube::Schedule.new(content.start_time)
+            s.add_recurrence_rule(RecurringSelect.dirty_hash_to_rule(content.schedule_info['criteria']))
+            active = s.occurs_on? Clock.time
+          else
+            active = false
           end
         rescue => e
-          Rails.logger.error("Unable to determine if schedule is active - #{e.message} - #{schedule}")
-          Rails.logger.error("start_time = #{schedule['start_time']}")
+          active = false
+          Rails.logger.error("Unable to determine if schedule is active - #{e.message} for content #{content.id}")
         end
       end
 
-      effective
+      active
     end
     
   end
