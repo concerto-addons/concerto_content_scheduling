@@ -7,3 +7,9 @@ en:
         schedule: 'Schedule'
         from_time: 'From Time'
         until_time: 'Until Time'
+      details:
+        available: 'Available'
+        from: 'from'
+        until: 'until'
+        not_scheduled: 'Not Scheduled'
+        schedule: 'Schedule'
