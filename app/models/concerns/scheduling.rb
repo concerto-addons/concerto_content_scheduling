@@ -55,6 +55,9 @@ module Concerns::Scheduling
 
   def load_schedule_info
     self.schedule_info = JSON.load(self.schedule) rescue {}
+    if self.schedule_info.has_key?('criteria') and self.schedule_info['criteria'] == 'null'
+      self.schedule_info['criteria'] = nil
+    end
   end
 
   def save_schedule_info

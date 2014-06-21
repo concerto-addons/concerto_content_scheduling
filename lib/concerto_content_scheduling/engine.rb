@@ -20,6 +20,10 @@ module ConcertoContentScheduling
           @contents.reject!{|c| !c.is_active_per_schedule?}
         end
 
+        add_controller_hook "ContentsController", :update_params, :after do
+          @attributes.concat([:schedule_info => [:criteria, :start_time, :end_time]])
+        end
+
       end
     end
   end
