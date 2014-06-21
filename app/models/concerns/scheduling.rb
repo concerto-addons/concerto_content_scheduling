@@ -17,13 +17,20 @@ module Concerns::Scheduling
   module ClassMethods
   end
 
-  def is_active_per_schedule?
-    active = true
-
+  def is_scheduled?
     if self.blank? or self.schedule_info.blank? or !self.schedule_info.is_a?(Hash) or
       !self.schedule_info.include?("start_time") or !self.schedule_info.include?("end_time") or
       !self.schedule_info.include?("criteria") or self.schedule_info["start_time"].blank? or
       self.schedule_info["end_time"].blank? or self.schedule_info["criteria"].blank? or self.schedule_info["criteria"] == "null"
+      return false
+    end
+    return true
+  end
+
+  def is_active_per_schedule?
+    active = true
+
+    if !is_scheduled?
       # missing or incomplete schedule information so assume active
     else
       # see if it is within the viewing window for the day
