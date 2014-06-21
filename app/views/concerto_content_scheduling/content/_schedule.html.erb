@@ -3,10 +3,9 @@
 
 <% 
   rules = []
-  if @content.schedule_info.has_key?('criteria')
-    if !@content.schedule_info['criteria'].blank? and @content.schedule_info['criteria'] != "null"
-      rules << RecurringSelect.dirty_hash_to_rule(@content.schedule_info['criteria'])
-    end
+  if !@content.schedule_info.blank? and @content.schedule_info.has_key?('criteria') and
+    !@content.schedule_info['criteria'].blank? and @content.schedule_info['criteria'] != "null"
+    rules << RecurringSelect.dirty_hash_to_rule(@content.schedule_info['criteria'])
   end
 %>
 

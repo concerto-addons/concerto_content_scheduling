@@ -18,6 +18,10 @@ module ConcertoContentScheduling
                       :content_details, 
                       :partial => "concerto_content_scheduling/content/details"
 
+        add_view_hook "ContentsController", 
+                      :tile_labels, 
+                      :partial => "concerto_content_scheduling/content/tile_labels"
+
         # filter the contents according to the schedule
         # the manykinds plugin if concurrently enabled will cause this to be skipped
         add_controller_hook "Subscription", :filter_contents, :after do
