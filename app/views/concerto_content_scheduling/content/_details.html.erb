@@ -1,13 +1,13 @@
 <div class="subblock">
   <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.schedule') %></b></small></p>
 
-  <% if @content.respond_to?(:has_schedule?) and @content.has_schedule? %>
   <ul>
+  <% if @content.respond_to?(:has_schedule?) and @content.has_schedule? %>
     <li><%=t('.from') %> <%= l Time.parse(@content.schedule_info['start_time']), :format => :twelve_hour_time %></li>
     <li><%=t('.until') %> <%= l Time.parse(@content.schedule_info['end_time']),:format => :twelve_hour_time %></li>
     <li><%= @content.schedule_in_words %></li>
-  </ul>
   <% else %>
-    <p><%=t('.not_scheduled')%></p>
+    <li><%=t('.available')%></li>
   <% end %>
+  </ul>
 </div>
