@@ -17,7 +17,7 @@ module Concerns::Scheduling
   module ClassMethods
   end
 
-  def is_scheduled?
+  def has_schedule?
     if self.blank? or self.schedule_info.blank? or !self.schedule_info.is_a?(Hash) or
       !self.schedule_info.include?("start_time") or !self.schedule_info.include?("end_time") or
       !self.schedule_info.include?("criteria") or self.schedule_info["start_time"].blank? or
@@ -30,7 +30,7 @@ module Concerns::Scheduling
   def is_active_per_schedule?
     active = true
 
-    if !is_scheduled?
+    if !has_schedule?
       # missing or incomplete schedule information so assume active
     else
       # see if it is within the viewing window for the day
@@ -62,6 +62,7 @@ module Concerns::Scheduling
 
   def load_schedule_info
     self.schedule_info = JSON.load(self.schedule) rescue {}
+    create_schedule_info
     if self.schedule_info.has_key?('criteria') and self.schedule_info['criteria'] == 'null'
       self.schedule_info['criteria'] = nil
     end
@@ -69,6 +70,14 @@ module Concerns::Scheduling
 
   def save_schedule_info
     self.schedule = JSON.dump(self.schedule_info)
+  end
+
+  def schedule_in_words
+    if has_schedule?
+      s = IceCube::Schedule.new(self.start_time)
+      s.add_recurrence_rule(RecurringSelect.dirty_hash_to_rule(self.schedule_info['criteria']))
+      s.to_s
+    end
   end
 
 end
