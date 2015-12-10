@@ -32,6 +32,11 @@ module ConcertoContentScheduling
           @attributes.concat([:schedule_info => [:criteria, :start_time, :end_time]])
         end
 
+        # make sure dynamic content has the same schedule as it's parent item
+        add_controller_hook "DynamicContent", :alter_content, :after do
+          @new_attributes[:schedule_info] = @content.parent.schedule_info
+        end        
+
       end
     end
   end
