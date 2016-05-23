@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 4.1.6"
+  s.add_dependency "rails"
   s.add_dependency "jquery-timepicker-rails"
   s.add_dependency "ice_cube"
   s.add_dependency "recurring_select", '~> 1.2.1rc3'
