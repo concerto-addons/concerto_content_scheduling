@@ -2,5 +2,4 @@ function initSelectTime() {
   $('.timefield').timepicker();
 }
 
-$(document).ready(initSelectTime);
-$(document).on('page:change', initSelectTime);
+$(document).on('turbolinks:load', initSelectTime);
