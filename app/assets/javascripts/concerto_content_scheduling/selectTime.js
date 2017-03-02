@@ -1,5 +1,17 @@
-function initSelectTime() {
-  $('.timefield').timepicker();
+var ConcertoContentScheduling = {
+  _initialized: false,
+
+  initSelectTime: function () {
+    $('.timefield').timepicker();
+  },
+
+  initHandlers: function () {
+    if (!ConcertoContentScheduling._initialized) {
+      ConcertoContentScheduling.initSelectTime();
+      ConcertoContentScheduling._initialized = true;
+    }
+  }
 }
 
-$(document).on('turbolinks:load', initSelectTime);
+$(document).ready(ConcertoContentScheduling.initHandlers);
+$(document).on('turbolinks:load', ConcertoContentScheduling.initHandlers);
