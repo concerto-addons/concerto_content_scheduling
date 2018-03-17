@@ -3,8 +3,8 @@
 
   <ul>
   <% if @content.respond_to?(:has_schedule?) and @content.has_schedule? %>
-    <li><%=t('.from') %> <%= l Time.parse(@content.schedule_info['start_time']), :format => :twelve_hour_time %></li>
-    <li><%=t('.until') %> <%= l Time.parse(@content.schedule_info['end_time']),:format => :twelve_hour_time %></li>
+    <li><%=t('.from') %> <%= l(DateTime.parse(@content.schedule_info['start_time'], "%I:%M %P"), :format => :twelve_hour_time) %></li>
+    <li><%=t('.until') %> <%= l(DateTime.parse(@content.schedule_info['end_time'], "%I:%M %P"), :format => :twelve_hour_time) %></li>
     <li><%= @content.schedule_in_words %></li>
   <% else %>
     <li><%=t('.available')%></li>

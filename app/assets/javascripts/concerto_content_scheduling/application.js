@@ -11,5 +11,4 @@
 // about supported directives.
 //
 //= require recurring_select
-//= require jquery.timepicker.js
 //= require_tree .

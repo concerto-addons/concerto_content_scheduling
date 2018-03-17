@@ -69,6 +69,8 @@ module Concerns::Scheduling
   end
 
   def save_schedule_info
+    self.schedule_info['start_time'] = self.schedule_info['start_time'].gsub(I18n.t('time.am'), "am").gsub(I18n.t('time.pm'), "pm")
+    self.schedule_info['end_time'] = self.schedule_info['end_time'].gsub(I18n.t('time.am'), "am").gsub(I18n.t('time.pm'), "pm")
     self.schedule = JSON.dump(self.schedule_info)
   end
 

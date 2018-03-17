@@ -28,7 +28,7 @@
           <div class="input">
             <div class="input-prepend">
               <span class="add-on"><%= t(:at) %></span>
-              <%= schedule.text_field :start_time, :maxlength => 20, :value => @content.schedule_info['start_time'], :class => "timefield input-small" %>
+              <%= schedule.text_field :start_time, :maxlength => 20, :value => l(DateTime.parse(@content.schedule_info['start_time'], "%I:%M %P"), format: :twelve_hour_time), :class => "timefield input-small" %>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
           <div class="input">
             <div class="input-prepend">
               <span class="add-on"><%=t(:at)%></span>
-              <%= schedule.text_field :end_time, :value => @content.schedule_info['end_time'], :maxlength => 20, :class => "timefield input-small" %>
+              <%= schedule.text_field :end_time, :value => l(DateTime.parse(@content.schedule_info['end_time'], "%I:%M %P"), format: :twelve_hour_time), :maxlength => 20, :class => "timefield input-small" %>
             </div>
           </div>
         </div>
